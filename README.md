@@ -5,7 +5,7 @@
 <div markdown="1">
  </br>
  
-```
+```python
 def test(age, *args, **kwargs):
     if 'address' in kwargs:        
         arg_list = []
@@ -26,9 +26,9 @@ test(90, "옆집할머니", "건치", "아이오닉", 성별="여성", num="010-
 수정이 가능한 객체를 'mutable' 부름 > list, dict, Set</br>
 수정이 불가능한 객체를 'immutable' 부름 > int, float, bool, str, tuple</br>
 y = x , z = x 부분에서 같은 주소를 가리키게 되어 둘의 값은 동일해진다. </br>
-[:]나 deepcopy를 사용하면 같은 객체를 공유하지 않는 것이 가능하다.</br>
+`[:]나 deepcopy` 를 사용하면 같은 객체를 공유하지 않는 것이 가능하다.</br>
 
-```
+```python
 # mutable : list
 x = [1,2]
 y = x
@@ -63,7 +63,7 @@ print(f'{z} : {id(z)}')     # [1, 2] 4316070784
 딕셔너리 형태로 이루어져 key와 value 값이 있다.</br>
 아래의 코드로 key와 value값에 접근이 가능하다.</br>
 
-```
+```python
  <variable name>[index]['key']
  .values()
  ```
