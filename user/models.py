@@ -74,8 +74,8 @@ class UserProfile(models.Model):
     birthday = models.DateField("생일")
     age = models.IntegerField("나이")
     
-    def __str__(self):
-        return self.user
+    # def __str__(self):
+    #     return self.user
     
 
     

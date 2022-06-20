@@ -5,7 +5,7 @@ from user.models import User as UserModel
 from user.models import UserProfile as UserProfileModel
 from blog.models import Article as ArticleModel
 from blog.models import Comment as CommentModel
-
+# from blog.serializers import ArticleSerializer
 class ArticleSerializer(serializers.ModelSerializer):
     articles_user = serializers.SerializerMethodField()
     def get_articles_user(self, obj):
@@ -34,6 +34,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         
 class UserSerializer(serializers.ModelSerializer):
     article_set = ArticleSerializer(many=True)
+    # articles = ArticleSerializer(many=True, source="article_set")
     comment_set = CommentSerializer(many=True)
     userprofile = UserProfileSerializer() 
     
