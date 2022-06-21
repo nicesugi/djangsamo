@@ -1,4 +1,5 @@
 from django.contrib import admin
+from user.models import Hobby
 from user.models import User as UserModel
 from user.models import UserProfile as UserProfileModel
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -35,3 +36,4 @@ class UserAdmin(BaseUserAdmin):
 # admin.site.register(User)
 admin.site.register(UserModel, UserAdmin)
 admin.site.register(UserProfileModel)
+admin.site.register(Hobby)
