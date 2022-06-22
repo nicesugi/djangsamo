@@ -21,12 +21,12 @@ class UserView(APIView):
     # 회원가입
     def post(self, request):
         user_serializer = UserSerializer(data=request.data, context={"request": request})
-        
+
         if user_serializer.is_valid():
             user_serializer.save()
             return Response(user_serializer.data, status=status.HTTP_200_OK)
-
-        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     # 회원정보 수정
     def put(self, request, obj_id):

@@ -77,7 +77,7 @@ class Hobby(models.Model):
     
 # 유저
 class UserProfile(models.Model):
-    user = models.OneToOneField(to=User, verbose_name="사용자", on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, verbose_name="사용자", on_delete=models.CASCADE, primary_key=True)
     introduction = models.TextField("소개")
     birthday = models.DateField("생일")
     age = models.IntegerField("나이")

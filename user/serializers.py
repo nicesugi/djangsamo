@@ -24,55 +24,32 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ["introduction", "birthday", "age", "hobby", "get_hobbys"]
         
         
-        
+
+     
 class UserSerializer(serializers.ModelSerializer):
     userprofile = UserProfileSerializer() 
     articles = ArticleSerializer(many=True, source="article_set", read_only=True)
-    # # 사용자의 게시글 user's article
-    # login_user_fullname = serializers.SerializerMethodField()
-    # def get_login_user_fullname(self, obj):
-    #     return self.context["request"].user.fullname
-    
     
     # validate : 기존 validation + custom validation
     def validate(self, data):
-        print(data) # 회원가입 is_valid로 이동하여 검증
-        print(self.context)
-        print(self.context.get("request", {}).method)
-        # try:
-        #     http_method = self.context.get("request", {}).method
-        # except:
-        #     http_method == ""
         valid_email_list = ["naver.com", "gmail.com", "yahoo.com"] # > 이런 선언은 임포트 아래쪽에 하는것이 좋음
         if data.get("email", "").split("@")[-1] not in valid_email_list:
             raise serializers.ValidationError(
                 detail={"error": "유효한 이메일이 아닙니다."}
             )
-        # if not data.get("email", "").endwith("@naver.com"):
-        #     raise serializers.ValidationError(
-        #         detail={"error": "네이버 이메일만 가입할 수 있습니다"}
-        #     )
-        # if not data.get("fullname", "").startwith("이"):
-        #     raise serializers.ValidationError(
-        #         detail={"error": "이씨 성만 가입할 수 있습니다"}
-        #     )
-        return data
+        return data   
     
-    # 기존함수를 덮어씀
-    def create(self, validate_data):
-        user_profile = validate_data.pop("userprofile")
-        get_hobbys = user_profile.pop("user_hobbys", [])
-        password = validate_data.pop("password")
-        print(user_profile)
-        print(get_hobbys)   
-           
-        user = UserModel(**validate_data)
+    #기존함수를 덮어씀
+    def create(self, validated_data):
+        user_profile = validated_data.pop("userprofile")
+        get_hobbys = user_profile.pop("get_hobbys", [])
+        password = validated_data.pop("password")
+        user = UserModel(**validated_data)
         user.set_password(password)
         user.save()
         
-        
         user_profile = UserProfileModel.objects.create(
-            user=user
+            user=user,
             **user_profile
             )
         user_profile.hobby.add(*get_hobbys)
@@ -103,10 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = [
-            "username", "fullname", "email", "password",
-            "join_date", 
-            "userprofile", "articles"
-        ]
+            "username", "fullname", "email", "password", "join_date", "userprofile", "articles"]
         
         # 각 필드에 해당하는 다양한 옵션 지정
         extra_kwargs = {
