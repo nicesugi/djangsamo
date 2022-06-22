@@ -27,7 +27,8 @@ class ArticleView(APIView):
     
     def post(self, request):
         user = request.user
-        request.data['user'] = user.id
+        request.data['author'] = user.id
+        print(request.data['author'])
         article_serializer = ArticleSerializer(data=request.data)
         
         if article_serializer.is_valid():

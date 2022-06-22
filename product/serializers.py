@@ -3,13 +3,14 @@ from product.models import Product as ProductModel
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # product = serializers.SerializerMethodField()
-    # def get_product(self, obj):
-    #     return obj.user.username
+    user = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username'
+    )
     
     class Meta:
         model = ProductModel
-        fields = ["user", "name", "thumbnail", "description", 
+        fields = ["user", "title", "thumbnail", "description", 
                   "created", "exposure_start_date", "exposure_end_date"
-        ]
+        ]  
         
