@@ -1,24 +1,29 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework import permissions, status
+from rest_framework import status
 from rest_framework.response import Response
-from Django.permissions import IsAdminOrIsAuthenticatedReadOnly
+# from Django.permissions import IsAdminOrIsAuthenticatedReadOnly
 from product.serializers import ProductSerializer
 from product.models import Product as ProductModel
+
+from Django.permissions import RegistedMoreThanThreeDaysUser
 
 from datetime import datetime
 from django.db.models import Q
 
 
 class ProductView(APIView):
+    permission_classes = [RegistedMoreThanThreeDaysUser]
     # 상품 조회
     def get(self, request):
         today = datetime.now()
         products = ProductModel.objects.filter(
-            Q(exposure_start_date__lte=today, exposure_end_date__gte=today, ) | 
+            Q(exposure_end_date__gte=today, is_active=True ) | 
             Q(user=request.user)
         )
+
         serialized_data = ProductSerializer(products, many=True).data
+        print("ㅡㅡㅡㅡㅡㅡㅡ", serialized_data)
         return Response(serialized_data, status=status.HTTP_200_OK)
     
     
